@@ -11,9 +11,11 @@ def fetch(func):
         data = config.get('data',{})
         _kwargs = config.get('kwargs',{})
         version = config.get('version',700)
+        headers = config.get('headers')
+        Headers = headers if headers else get_header(int(version))
         response = send_request(method,url,
                                 params=params,
-                                headers=get_header(int(version)),
+                                headers=Headers,
                                 data=data,**_kwargs)
         ret = response.json()
         return ret

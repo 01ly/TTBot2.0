@@ -6,6 +6,7 @@ from apis import TTApi
 from tools import *
 from deco import fetch
 from encrypt import encrypt
+from settings import VCOMMENTS,VINFO,VVINFO
 
 class TTBot:
 
@@ -272,28 +273,33 @@ class TTBot:
         """
         return {
             'params':{
-                'user_id': uid,
+                'to_user_id': uid,
+                'device_id': f'{random.randrange(10**10,10**11)}',
                 'ac': 'wifi',
-                'channel': 'baidu',
-                'aid': '13',
-                'app_name': 'news_article',
-                'version_code': '700',
-                'version_name': '7.0.0',
+                'channel': 'wandoujia',
+                'aid': '32',
+                'app_name': 'video_article',
+                'version_code': '633',
+                'version_name': '6.3.3',
                 'device_platform': 'android',
-                'abflag': '3',
                 'ssmix': 'a',
                 'device_type': f'{fake_device_type().upper()}',
-                'device_brand': f'{fake_device_type().lower()}',
+                'device_brand': f'{fake_device_type().upper()}',
                 'os_api': '22',
                 'os_version': '5.1.1',
-                'manifest_version_code': '700',
-                'update_version_code': '70011',
+                'resolution':'1600*900',
+                'dpi':'320',
+                'manifest_version_code': '233',
+                'update_version_code': '6332',
                 '_rticket': f'{int(time.time() * 1000)}',
-                'rom_version': '22',
-                'plugin': '26958',
-                'ts': f'{int(time.time())}'
+                'fp': f'a_fake_fp'
             },
-            'url':self.API.USER_INFO
+            'url':VINFO,
+            'headers':{
+                'User-Agent':'Dalvik/2.1.0 (Linux; U; Android 5.1.1; SR8 Build/I) '
+                             'NewsArticle/7.0.0 okhttp/3.10.0.7',
+                'Cookie': f'odin_tt={fake_device_type()}'
+            }
         }
 
     @fetch
@@ -354,35 +360,37 @@ class TTBot:
             'params':{
                 'group_id': item_id,
                 'item_id': item_id,
-                'aggr_type': '1',
-                'context': '1',
-                'from_category': '__all__',
-                'article_page': '0',
-                'is_low_actived': '0',
-                'search_id': '',
-                'query': '',
-                'device_id': f'{random.randrange(10 ** 10, 10 ** 11)}',
+                'aggr_type':'1',
+                'context':'1',
+                'article_page':'1',
+                'flags':'64',
+                'from_category':'video_new',
+                'device_id': f'{random.randrange(10**10,10**11)}',
                 'ac': 'wifi',
-                'channel': 'baidu',
-                'aid': '13',
-                'app_name': 'news_article',
-                'version_code': '700',
-                'version_name': '7.0.0',
+                'channel': 'wandoujia',
+                'aid': '32',
+                'app_name': 'video_article',
+                'version_code': '633',
+                'version_name': '6.3.3',
                 'device_platform': 'android',
-                'abflag': '3',
                 'ssmix': 'a',
                 'device_type': f'{fake_device_type().upper()}',
-                'device_brand': f'{fake_device_type().lower()}',
+                'device_brand': f'{fake_device_type().upper()}',
                 'os_api': '22',
                 'os_version': '5.1.1',
-                'manifest_version_code': '700',
-                'update_version_code': '70011',
+                'resolution':'1600*900',
+                'dpi':'320',
+                'manifest_version_code': '233',
+                'update_version_code': '6332',
                 '_rticket': f'{int(time.time() * 1000)}',
-                'rom_version': '22',
-                'plugin': '26958',
-                'ts': f'{int(time.time())}'
+                'fp': f'a_fake_fp'
             },
-            'url':self.API.ARTICLE_INFO
+            'url':VVINFO,
+            'headers':{
+                'User-Agent':'Dalvik/2.1.0 (Linux; U; Android 5.1.1; SR8 Build/I) '
+                             'NewsArticle/7.0.0 okhttp/3.10.0.7',
+                'Cookie': f'odin_tt={fake_device_type()}'
+            }
         }
 
     @fetch
@@ -398,31 +406,27 @@ class TTBot:
                 'group_id': item_id,
                 'item_id': item_id,
                 'aggr_type': '1',
-                'fold': '1',
                 'count': count,
                 'offset': offset,
                 'tab_index': '0',
                 'ac': 'wifi',
-                'channel': 'baidu',
-                'aid': '13',
-                'app_name': 'news_article',
-                'version_code': '700',
-                'version_name': '7.0.0',
+                'channel': 'wandoujia',
+                'aid': '32',
+                'app_name': 'video_article',
+                'version_code': '633',
+                'version_name': '6.3.3',
                 'device_platform': 'android',
-                'abflag': '3',
                 'ssmix': 'a',
                 'device_type': f'{fake_device_type().upper()}',
                 'device_brand': f'{fake_device_type().lower()}',
                 'os_api': '22',
                 'os_version': '5.1.1',
-                'manifest_version_code': '700',
-                'update_version_code': '70011',
+                'manifest_version_code': '233',
+                'update_version_code': '6332',
                 '_rticket': f'{int(time.time() * 1000)}',
-                'rom_version': '22',
-                'plugin': '26958',
-                'ts': f'{int(time.time())}'
+                'fp': f'a_fake_fp'
             },
-            'url':self.API.VIDEO_COMMENTS
+            'url':VCOMMENTS
         }
 
     @fetch
@@ -532,4 +536,88 @@ class TTBot:
             },
             'url':self.API.USER_RECOMMEND,
         }
+
+    @fetch
+    def search(self,keyword,offset=0,count=10,kind='GENERAL'):
+        '''
+        关键词搜索
+        :param keyword:搜索关键词
+        :param offset:翻页游标，根据返回结果中的offset进行传值翻页
+        :param count:此次获取搜索结果条数
+        :param kind: 搜索类型  用户/USER 视频/VIDEO 小视频/SHORTVIDEO
+                    图片/PICTURE 音乐/MUSIC 综合/GENERAL 资讯/NEWS
+                    问答/QUESTION 话题/TOPIC 直播/LIVE
+        :return:搜索结果
+        '''
+        KIND = {
+            'VIDEO':('user','video'),
+            'SHORVIDEO':('atlas','xiaoshipin'),
+            'USER':('music','user'),
+            'PICTURE':('user','gallery'),
+            'MUSIC':('user','music'),
+            'GENERAL':('user','synthesis'),
+            'NEWS':('user','news'),
+            'QUESTION':('information','question'),
+            'WEITT':('question','weitoutiao'),
+            'TOPIC':('question','huati'),
+            'LIVE':('question','xigua_live'),
+        }
+        return {
+            'params':{
+                'os_api':'22',
+                'device_type':f"{fake_device_type()}",
+                'from_search_subtab':KIND.get(kind,('atlas','media'))[0],
+                'manifest_version_code':'727',
+                'source':'search_subtab_switch',
+                'offset':offset,
+                'is_ttwebview':'0' ,
+                'action_type':'',
+                'keyword_type':'' ,
+                'rom_version':'22' ,
+                'app_name':'news_article',
+                'format':'json',
+                'version_name':'7.2.7',
+                'ac':'wifi',
+                'update_version_code':'72711' ,
+                'channel':'wandoujia2' ,
+                '_rticket':f'{int(time.time()*1000)}'  ,
+                'is_native_req':'1' ,
+                'tma_jssdk_version':'1.19.2.0' ,
+                'isIncognito':'0' ,
+                'plugin':'26958' ,
+                'forum':'1',
+                'search_start_time':f'{int(time.time()*1000)}' ,
+                'language':'zh' ,
+                'pd':KIND.get(kind,('atlas','media'))[-1] ,
+                'cur_tab_title':'search_tab' ,
+                'aid':'13' ,
+                'qrecImprId':'' ,
+                'fetch_by_ttnet':'1' ,
+                'count':count ,
+                'plugin_enable':'3' ,
+                'search_position':'' ,
+                'keyword':keyword ,
+                'scm_version':'1.0.2.916' ,
+                'device_platform':'android',
+                'search_id':'' ,
+                'has_count':'0' ,
+                'version_code':'727' ,
+                'from':KIND.get(kind,('atlas','media'))[-1],
+                'os_version':'5.1.1' ,
+                'device_brand':f'{fake_device_type()}' ,
+                'search_sug':'1' ,
+                'qc_query':'' ,
+                'ts':f'{int(time.time())}',
+            },
+            'url':self.API.SEARCH,
+        }
+
+    @fetch
+    def get_feeds(self,count=20):
+        """
+        :param off:
+        :return:
+        """
+
+
 

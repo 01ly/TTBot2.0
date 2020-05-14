@@ -27,6 +27,10 @@ SUIT = {
             'USER_INFO':'/user/profile/homepage/v7/',
             # 相关用户推荐 接口的请求路径
             'USER_RECOMMEND':'/user/relation/user_recommend/v1/supplement_recommends/',
+            # 关键词搜索 接口的请求路径
+            'SEARCH':'/api/search/content/',
+            # 分类推荐流 接口的请求路径
+            'FEEDS':'/api/news/feed/v88/',
 
         }
 
@@ -61,6 +65,10 @@ SEC_HOSTS = {
     700:'https://security-hl.snssdk.com',
 
 }
+
+VCOMMENTS = 'https://is.snssdk.com/article/v2/tab_comments/'
+VINFO = 'https://is.snssdk.com/video/app/user/home/v4/'
+VVINFO ='https://is.snssdk.com/video/app/article/information/v23/'
 
 UA = 'Dalvik/2.1.0 (Linux; U; Android 5.1.1; {device_type} Build/{builder}) NewsArticle/{app_version} okhttp/3.10.0.{version}'
 
